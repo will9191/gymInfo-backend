@@ -1,4 +1,4 @@
-package com.example.gymInfo.domain.exercise;
+package com.example.gymInfo.exercise;
 
 public record ExerciseResponseDTO(String id, String name, String category, String description, String picture) {
     public ExerciseResponseDTO(Exercise exercise) {

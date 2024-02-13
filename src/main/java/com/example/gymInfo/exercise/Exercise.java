@@ -1,4 +1,4 @@
-package com.example.gymInfo.domain.exercise;
+package com.example.gymInfo.exercise;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,7 +19,7 @@ public class Exercise {
     private String description;
     private String picture;
 
-    public Exercise(ExerciseRequestDTO data){
+    public Exercise(ExerciseRequest data){
         this.name = data.name();
         this.category = data.category();
         this.description = data.description();

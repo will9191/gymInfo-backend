@@ -1,10 +1,6 @@
-package com.example.gymInfo.controllers;
+package com.example.gymInfo.exercise;
 
 import com.example.gymInfo.domain.CustomResponse;
-import com.example.gymInfo.domain.exercise.Exercise;
-import com.example.gymInfo.domain.exercise.ExerciseRequestDTO;
-import com.example.gymInfo.domain.exercise.ExerciseResponseDTO;
-import com.example.gymInfo.repositories.ExerciseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +19,7 @@ public class ExerciseController {
     ExerciseRepository repository;
 
     @PostMapping
-    public ResponseEntity postExercise(@RequestBody @Valid ExerciseRequestDTO body) {
+    public ResponseEntity postExercise(@RequestBody @Valid ExerciseRequest body) {
         Exercise newExercise = new Exercise(body);
         this.repository.save(newExercise);
         CustomResponse response = new CustomResponse();
@@ -47,7 +43,7 @@ public class ExerciseController {
 
     @PutMapping
     @Transactional
-    public ResponseEntity updateExercise(@RequestBody @Valid ExerciseRequestDTO data) {
+    public ResponseEntity updateExercise(@RequestBody @Valid ExerciseRequest data) {
         Optional<Exercise> optionalExercise = this.repository.findById(data.id());
         if (optionalExercise.isPresent()) {
             Exercise exercise = optionalExercise.get();

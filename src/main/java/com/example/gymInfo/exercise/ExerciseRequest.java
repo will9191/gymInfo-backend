@@ -1,8 +1,8 @@
-package com.example.gymInfo.domain.exercise;
+package com.example.gymInfo.exercise;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record ExerciseRequestDTO(
+public record ExerciseRequest(
         String id,
         @NotBlank
         String name,

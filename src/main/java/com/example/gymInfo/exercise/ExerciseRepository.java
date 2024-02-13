@@ -1,6 +1,5 @@
-package com.example.gymInfo.repositories;
+package com.example.gymInfo.exercise;
 
-import com.example.gymInfo.domain.exercise.Exercise;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

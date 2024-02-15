@@ -2,27 +2,21 @@ package com.example.gymInfo.exercise;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity(name = "exercise")
-@Table(name= "exercise")
-@Getter
-@Setter
+
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Exercise {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue
+    private Integer id;
     private String name;
     private String category;
     private String description;
     private String picture;
-
-    public Exercise(ExerciseRequest data){
-        this.name = data.name();
-        this.category = data.category();
-        this.description = data.description();
-        this.picture = data.picture();
-    }
 }

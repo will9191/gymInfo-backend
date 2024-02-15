@@ -1,8 +1,8 @@
 package com.example.gymInfo.exercise;
 
-import com.example.gymInfo.domain.CustomResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,57 +13,38 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/exercise")
+@RequestMapping("/api/v1/exercise")
+@RequiredArgsConstructor
 public class ExerciseController {
-    @Autowired
-    ExerciseRepository repository;
+
+    private final ExerciseService service;
 
     @PostMapping
-    public ResponseEntity postExercise(@RequestBody @Valid ExerciseRequest body) {
-        Exercise newExercise = new Exercise(body);
-        this.repository.save(newExercise);
-        CustomResponse response = new CustomResponse();
-        response.setStatusCode("201");
-        response.setStatusMsg("Exercício criado com sucesso!");
-        response.setBody(newExercise);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity getAllExercises() {
-        List<ExerciseResponseDTO> exerciseList = this.repository.findAll().stream().map(ExerciseResponseDTO::new).toList();
-        return ResponseEntity.ok(exerciseList);
+    public ResponseEntity<?> save(@RequestBody @Valid ExerciseRequest request) {
+        service.save(request);
+        return ResponseEntity.accepted().build();
     }
 
     @GetMapping
-    public ResponseEntity getExerciseByName(String name, String category) {
-        List<ExerciseResponseDTO> exerciseList = this.repository.findByNameContainingIgnoreCaseAndCategoryContainingIgnoreCase(name, category).stream().map(ExerciseResponseDTO::new).toList();
-        return ResponseEntity.ok(exerciseList);
+    public ResponseEntity<List<Exercise>> getAllExercises() {
+        return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Exercise>> getExerciseByName(String name, String category) {
+        return ResponseEntity.ok(service.findBySearch(name, category));
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity updateExercise(@RequestBody @Valid ExerciseRequest data) {
-        Optional<Exercise> optionalExercise = this.repository.findById(data.id());
-        if (optionalExercise.isPresent()) {
-            Exercise exercise = optionalExercise.get();
-            exercise.setName(data.name());
-            exercise.setDescription(data.description());
-            exercise.setCategory(data.category());
-            exercise.setPicture(data.picture());
-            CustomResponse response = new CustomResponse();
-            response.setStatusCode("201");
-            response.setStatusMsg("Exercício criado com sucesso!");
-            response.setBody(exercise);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } else {
-            throw new EntityNotFoundException();
-        }
+    public ResponseEntity<?> updateExercise(@RequestBody @Valid ExerciseRequest request) {
+        service.update(request);
+        return ResponseEntity.ok(request);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteExercise(@PathVariable String id) {
-        repository.deleteById(id);
+    public ResponseEntity<?> deleteExercise(@PathVariable Integer id) {
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

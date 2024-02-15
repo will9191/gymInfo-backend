@@ -46,6 +46,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHERE_LIST_URL)
                                 .permitAll()
+                                .requestMatchers(POST, "/api/v1/exercise").hasAnyRole(ADMIN.name(), MANAGER.name())
+                                .requestMatchers(PUT, "/api/v1/exercise").hasAnyRole(ADMIN.name(), MANAGER.name())
+                                .requestMatchers(DELETE, "/api/v1/exercise/{id}").hasAnyRole(ADMIN.name(), MANAGER.name())
                                 .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
                                 .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())
                                 .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority(ADMIN_CREATE.name(), MANAGER_CREATE.name())
@@ -53,6 +56,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(DELETE, "/api/v1/management/**").hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
                                 .anyRequest()
                                 .authenticated()
+
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)

@@ -15,9 +15,11 @@ public class ExerciseService {
 
     public void save(ExerciseRequest request) {
         var exercise = Exercise.builder()
-                .id(request.getId())
                 .name(request.getName())
                 .category(request.getCategory())
+                .primaryMuscle(request.getPrimaryMuscle())
+                .secondaryMuscles(request.getSecondaryMuscles())
+                .equipment(request.getEquipment())
                 .description(request.getDescription())
                 .picture(request.getPicture())
                 .build();
@@ -28,11 +30,14 @@ public class ExerciseService {
 
         Optional<Exercise> optionalExercise = repository.findById(request.getId());
         if (optionalExercise.isPresent()) {
-                 Exercise exercise = optionalExercise.get();
-                 exercise.setName(request.getName());
-                 exercise.setDescription(request.getDescription());
-                 exercise.setCategory(request.getCategory());
-                 exercise.setPicture(request.getPicture());
+            Exercise exercise = optionalExercise.get();
+            exercise.setName(request.getName());
+            exercise.setCategory(request.getCategory());
+            exercise.setPrimaryMuscle(request.getPrimaryMuscle());
+            exercise.setSecondaryMuscles(request.getSecondaryMuscles());
+            exercise.setEquipment(request.getEquipment());
+            exercise.setDescription(request.getDescription());
+            exercise.setPicture(request.getPicture());
         } else {
             throw new EntityNotFoundException();
         }
@@ -41,6 +46,10 @@ public class ExerciseService {
 
     public List<Exercise> findAll() {
         return repository.findAll();
+    }
+
+    public Optional<Exercise> findById(Integer id) {
+        return repository.findById(id);
     }
 
     public void delete(Integer id) {

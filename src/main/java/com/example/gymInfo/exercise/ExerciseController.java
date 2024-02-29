@@ -30,6 +30,11 @@ public class ExerciseController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Exercise>> getExerciseById(@PathVariable Integer id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<Exercise>> getExerciseByName(String name, String category) {
         return ResponseEntity.ok(service.findBySearch(name, category));

@@ -60,7 +60,7 @@ public class GymInfoApplication {
                     .secondaryMuscles(new String[]{"Anterior Deltoid", "Triceps"})
                     .description("The best one for a big chest!")
                     .equipment("Smith Machine or Dumbbells")
-                    .picture("https://gymwolf.com/images/exercises/1263_1.jpg")
+                    .picture("https://newlife.com.cy/wp-content/uploads/2019/11/00471301-Barbell-Incline-Bench-Press_Chest_360.gif")
                     .build();
             System.out.println(controller.save(exercise));
 
@@ -83,9 +83,20 @@ public class GymInfoApplication {
                     .secondaryMuscles(new String[]{"Biceps", "Forearms"})
                     .description("The best one for a big back!")
                     .equipment("Pull-up bar")
-                    .picture("https://www.inspireusafoundation.org/wp-content/uploads/2023/04/scapular-pull-up-muscles-1024x1004.png")
+                    .picture("https://www.inspireusafoundation.org/wp-content/uploads/2022/11/pull-up.gif")
                     .build();
             System.out.println(controller.save(exercise2));
+
+            var exercise3 = ExerciseRequest.builder()
+                    .name("Leg Extension")
+                    .category("Legs")
+                    .primaryMuscle(new String[]{"Quadriceps"})
+                    .secondaryMuscles(new String[]{"Vastus Lateralis", "Vastus Medialis", "Vastus Intermedius"})
+                    .description("Best exercise for a big quadriceps!")
+                    .equipment("Machine")
+                    .picture("https://media1.tenor.com/m/bqKtsSuqilQAAAAC/gym.gif")
+                    .build();
+            System.out.println(controller.save(exercise3));
         };
     }
 
